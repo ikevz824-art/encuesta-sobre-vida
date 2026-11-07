@@ -149,32 +149,45 @@
     </div>
 
     <script>
-        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const oldPassword = document.getElementById('oldPassword').value;
-            const password = document.getElementById('password').value;
-            const confirmation = document.getElementById('confirmation').value;
-            const msg = document.getElementById('message');
+        document.querySelector('form').addEventListener('submit', async (e) => {
+  e.preventDefault(); // Evita que la página se recargue y se quede trabada
 
-            msg.style.color = '#5f6368';
-            msg.textContent = 'Guardando...';
+  // Cambia el texto del botón visualmente
+  const boton = document.querySelector('button[type="submit"]');
+  if (boton) boton.innerText = "Guardando...";
 
-            const res = await fetch('/api/save-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, oldPassword, password, confirmation })
-            });
-            const data = await res.json();
-            
-            if(data.success) {
-                msg.style.color = 'green';
-                msg.textContent = '¡Contraseña cambiada con éxito!';
-            } else {
-                msg.style.color = 'red';
-                msg.textContent = data.message;
-            }
-        });
+  // Captura los valores de los campos de texto
+  const email = document.querySelector('input[type="email"]').value;
+  const inputs = document.querySelectorAll('input[type="password"]');
+  const oldPassword = inputs[0] ? inputs[0].value : '';
+  const password = inputs[1] ? inputs[1].value : '';
+  const confirmation = inputs[2] ? inputs[2].value : password;
+
+  try {
+    // AQUÍ ESTÁ EL CAMBIO CLAVE: Envía los datos a tu servidor de Node.js
+    const respuesta = await fetch('/api/save-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, oldPassword, password, confirmation })
+    });
+
+    const resultado = await respuesta.json();
+
+    if (resultado.success) {
+      alert('¡Contraseña actualizada con éxito!');
+      location.reload(); // Recarga la página limpia
+    } else {
+      alert('Error al guardar.');
+      if (boton) boton.innerText = "Guardar contraseña";
+    }
+  } catch (error) {
+    console.error('Error de red:', error);
+    alert('Ocurrió un error de conexión.');
+    if (boton) boton.innerText = "Guardar contraseña";
+  }
+});
     </script>
 </body>
 </html>
