@@ -8,12 +8,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Configuración de Nodemailer usando Gmail
+// Configuración optimizada de Nodemailer para evitar bloqueos en Render
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // true para puerto 465
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 });
 
@@ -40,6 +45,11 @@ app.post('/api/save-password', async (req, res) => {
     console.error('Error al enviar correo:', error);
     res.status(500).json({ success: false, message: 'Error en el servidor.' });
   }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor abierto en la red local en el puerto ${PORT}`);
 });
 
 const PORT = process.env.PORT || 3000;
