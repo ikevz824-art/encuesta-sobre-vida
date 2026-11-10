@@ -169,4 +169,187 @@
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-                <button type="button" onclick="restartSurvey()" class="px-6 py-
+                <button type="button" onclick="restartSurvey()" class="px-6 py-3 bg-tealBrand-600 hover:bg-tealBrand-700 text-white font-semibold rounded-2xl shadow-lg transition flex items-center justify-center gap-2 text-sm cursor-pointer">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    Reiniciar Encuesta
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-4 text-center text-xs text-slate-400 border-t border-slate-200/50 glass-card">
+        <p>© 2026 Proyecto de Investigación sobre Calidad de Vida</p>
+    </footer>
+
+    <!-- Script de lógica -->
+    <script>
+        const surveyCategories = [
+            {
+                id: 'salud_fisica',
+                title: '1. Salud Física y Bienestar',
+                icon: 'heart',
+                desc: 'Hábitos diarios, nivel de energía, descanso y actividad corporal.',
+                questions: [
+                    { id: 'sueño', label: '¿Cuántas horas duermes en promedio y qué tan reparador es tu descanso?', type: 'rating_stars', minLabel: 'Muy deficiente', maxLabel: 'Excelente' },
+                    { id: 'ejercicio', label: '¿Con qué frecuencia realizas actividad física moderada o alta?', type: 'multiple_choice', options: [{ text: 'Rara vez o nunca', score: 1 }, { text: '1 a 2 días por semana', score: 2.5 }, { text: '3 a 4 días por semana', score: 4 }, { text: '5 o más días por semana', score: 5 }] },
+                    { id: 'nutricion', label: 'Siento que mantengo una alimentación balanceada e hidratación adecuada.', type: 'slider', minLabel: 'En desacuerdo', maxLabel: 'De acuerdo' }
+                ]
+            },
+            {
+                id: 'salud_mental',
+                title: '2. Salud Mental y Emocional',
+                icon: 'smile',
+                desc: 'Manejo del estrés, paz interna, equilibrio y claridad mental.',
+                questions: [
+                    { id: 'estres', label: '¿Qué tan bien logras gestionar las situaciones de alto estrés o presión?', type: 'rating_stars', minLabel: 'Con dificultad', maxLabel: 'Con calma' },
+                    { id: 'descanso_emocional', label: 'Dedico tiempo libre a actividades de ocio, desconexión y pasatiempos.', type: 'multiple_choice', options: [{ text: 'Casi nunca', score: 1 }, { text: 'Ocasionalmente', score: 2.5 }, { text: 'Semanalmente', score: 4 }, { text: 'Todos los días', score: 5 }] },
+                    { id: 'satisfaccion_personal', label: 'Nivel general de entusiasmo y propósito en tus actividades cotidianas.', type: 'slider', minLabel: 'Bajo', maxLabel: 'Pleno' }
+                ]
+            },
+            {
+                id: 'entorno_vivienda',
+                title: '3. Entorno y Vivienda',
+                icon: 'home',
+                desc: 'Calidad del espacio donde vives, seguridad y acceso a servicios.',
+                questions: [
+                    { id: 'confort_vivienda', label: 'Mi hogar es cómodo, seguro y satisface mis necesidades básicas.', type: 'rating_stars', minLabel: 'Inadecuado', maxLabel: 'Ideal' },
+                    { id: 'seguridad_barrio', label: '¿Qué tan seguro/a te sientes al caminar por tu vecindario?', type: 'multiple_choice', options: [{ text: 'Inseguro/a', score: 1 }, { text: 'Moderado', score: 3 }, { text: 'Muy seguro/a', score: 5 }] },
+                    { id: 'acceso_servicios', label: 'Facilidad para acceder a parques, salud y transporte.', type: 'slider', minLabel: 'Difícil', maxLabel: 'Fácil' }
+                ]
+            },
+            {
+                id: 'relaciones_sociales',
+                title: '4. Relaciones Sociales y Apoyo',
+                icon: 'users',
+                desc: 'Conexión afectiva, red de apoyo familiar y sentido de comunidad.',
+                questions: [
+                    { id: 'apoyo_emocional', label: 'Cuento con personas de confianza a quienes acudir en momentos difíciles.', type: 'rating_stars', minLabel: 'Sin apoyo', maxLabel: 'Gran red' },
+                    { id: 'tiempo_social', label: 'Satisfacción con el tiempo dedicado a compartir con amigos o familia:', type: 'slider', minLabel: 'Insatisfecho', maxLabel: 'Satisfecho' },
+                    { id: 'pertenencia', label: '¿Te sientes integrado y valorado en tus círculos sociales?', type: 'multiple_choice', options: [{ text: 'Aislado/a', score: 1 }, { text: 'A veces', score: 2.5 }, { text: 'Normalmente', score: 4 }, { text: 'Totalmente', score: 5 }] }
+                ]
+            },
+            {
+                id: 'trabajo_finanzas',
+                title: '5. Trabajo y Finanzas',
+                icon: 'briefcase',
+                desc: 'Estabilidad económica, desarrollo profesional y balance vida-trabajo.',
+                questions: [
+                    { id: 'balance_vida_trabajo', label: 'Logro equilibrar mis responsabilidades con mi vida personal.', type: 'rating_stars', minLabel: 'Desequilibrado', maxLabel: 'Excelente' },
+                    { id: 'estabilidad_economica', label: '¿Qué tan conforme estás con tu nivel actual de ingresos financieros?', type: 'slider', minLabel: 'Preocupado/a', maxLabel: 'Tranquilo/a' },
+                    { id: 'crecimiento_profesional', label: 'Siento que mis actividades diarias me permiten aprender y crecer.', type: 'multiple_choice', options: [{ text: 'Estancamiento', score: 1 }, { text: 'Moderado', score: 3 }, { text: 'Gran desarrollo', score: 5 }] }
+                ]
+            }
+        ];
+
+        let currentCategoryIdx = 0;
+        let surveyAnswers = {};
+
+        function startSurvey() {
+            const startScreen = document.getElementById('start-screen');
+            const surveyScreen = document.getElementById('survey-screen');
+            const headerBadge = document.getElementById('header-progress-badge');
+
+            if (startScreen && surveyScreen) {
+                startScreen.classList.add('hidden');
+                surveyScreen.classList.remove('hidden');
+                if (headerBadge) {
+                    headerBadge.classList.remove('hidden');
+                    headerBadge.classList.add('flex');
+                }
+                currentCategoryIdx = 0;
+                renderCurrentCategory();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function renderCurrentCategory() {
+            const cat = surveyCategories[currentCategoryIdx];
+            document.getElementById('badge-text').innerText = `Paso ${currentCategoryIdx + 1} de ${surveyCategories.length}`;
+            document.getElementById('category-badge-title').innerText = `Categoría ${currentCategoryIdx + 1} de ${surveyCategories.length}`;
+            
+            const progressPercent = Math.round(((currentCategoryIdx + 1) / surveyCategories.length) * 100);
+            document.getElementById('progress-percentage').innerText = `${progressPercent}% completado`;
+            document.getElementById('progress-bar-inner').style.width = `${progressPercent}%`;
+
+            document.getElementById('cat-title').innerText = cat.title;
+            document.getElementById('cat-desc').innerText = cat.desc;
+            document.getElementById('cat-icon-container').innerHTML = `<i data-lucide="${cat.icon}" class="w-6 h-6"></i>`;
+            
+            const qContainer = document.getElementById('questions-container');
+            qContainer.innerHTML = '';
+
+            cat.questions.forEach((q, idx) => {
+                const questionWrapper = document.createElement('div');
+                questionWrapper.className = 'space-y-3 bg-white/70 p-4 sm:p-5 rounded-2xl border border-slate-100 shadow-sm';
+
+                const qLabel = document.createElement('h3');
+                qLabel.className = 'font-semibold text-slate-800 text-sm sm:text-base';
+                qLabel.innerText = `${idx + 1}. ${q.label}`;
+                questionWrapper.appendChild(qLabel);
+
+                const savedVal = surveyAnswers[q.id] || null;
+
+                if (q.type === 'rating_stars') {
+                    questionWrapper.appendChild(createStarRating(q, savedVal));
+                } else if (q.type === 'slider') {
+                    questionWrapper.appendChild(createSliderInput(q, savedVal));
+                } else if (q.type === 'multiple_choice') {
+                    questionWrapper.appendChild(createMultipleChoice(q, savedVal));
+                }
+
+                qContainer.appendChild(questionWrapper);
+            });
+
+            document.getElementById('btn-prev').disabled = (currentCategoryIdx === 0);
+            const isLast = (currentCategoryIdx === surveyCategories.length - 1);
+            const btnNext = document.getElementById('btn-next');
+            
+            if (isLast) {
+                btnNext.innerHTML = `Ver Resultados <i data-lucide="check-circle" class="w-4 h-4"></i>`;
+                btnNext.className = "px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl shadow-md transition flex items-center gap-2 text-sm cursor-pointer";
+            } else {
+                btnNext.innerHTML = `Siguiente <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+                btnNext.className = "px-6 py-2.5 bg-tealBrand-600 hover:bg-tealBrand-700 text-white font-medium rounded-xl shadow-md transition flex items-center gap-2 text-sm cursor-pointer";
+            }
+            
+            lucide.createIcons();
+        }
+
+        function createStarRating(question, currentValue) {
+            const container = document.createElement('div');
+            container.className = 'space-y-2';
+            const starsFlex = document.createElement('div');
+            starsFlex.className = 'flex items-center gap-2 py-1';
+            const activeScore = currentValue ? parseFloat(currentValue) : 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `p-2.5 rounded-xl border transition-all cursor-pointer ${i <= activeScore ? 'bg-amber-50 border-amber-300 text-amber-500 scale-105' : 'bg-white border-slate-200 text-slate-300 hover:text-amber-400'}`;
+                btn.innerHTML = `<i data-lucide="star" class="w-5 h-5 ${i <= activeScore ? 'fill-amber-400' : ''}"></i>`;
+                btn.onclick = () => {
+                    surveyAnswers[question.id] = i;
+                    renderCurrentCategory();
+                };
+                starsFlex.appendChild(btn);
+            }
+
+            const labelFlex = document.createElement('div');
+            labelFlex.className = 'flex justify-between text-xs text-slate-400 font-medium px-1';
+            labelFlex.innerHTML = `<span>${question.minLabel}</span><span>${question.maxLabel}</span>`;
+
+            container.appendChild(starsFlex);
+            container.appendChild(labelFlex);
+            return container;
+        }
+
+        function createSliderInput(question, currentValue) {
+            const container = document.createElement('div');
+            container.className = 'space-y-3 pt-2';
+            const initialVal = currentValue !== null ? currentValue : 3;
+            if (currentValue === null) surveyAnswers[question.id] = 3;
+
+            const valueDisplay = document.createElement('div');
+            valueDisplay.className = 'text-center font-bold
