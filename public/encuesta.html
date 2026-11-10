@@ -352,4 +352,114 @@
             if (currentValue === null) surveyAnswers[question.id] = 3;
 
             const valueDisplay = document.createElement('div');
-            valueDisplay.className = 'text-center font-bold
+            valueDisplay.className = 'text-center font-bold text-tealBrand-700 text-xs bg-tealBrand-50 py-1 px-3 rounded-lg w-max mx-auto border border-tealBrand-100';
+            valueDisplay.innerText = `Valoración: ${initialVal} / 5`;
+
+            const input = document.createElement('input');
+            input.type = 'range';
+            input.min = '1';
+            input.max = '5';
+            input.step = '1';
+            input.value = initialVal;
+            input.className = 'w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer';
+
+            input.oninput = (e) => {
+                const val = parseFloat(e.target.value);
+                surveyAnswers[question.id] = val;
+                valueDisplay.innerText = `Valoración: ${val} / 5`;
+            };
+
+            const labelFlex = document.createElement('div');
+            labelFlex.className = 'flex justify-between text-xs text-slate-400 font-medium px-1';
+            labelFlex.innerHTML = `<span>${question.minLabel}</span><span>${question.maxLabel}</span>`;
+
+            container.appendChild(valueDisplay);
+            container.appendChild(input);
+            container.appendChild(labelFlex);
+            return container;
+        }
+
+        function createMultipleChoice(question, currentValue) {
+            const container = document.createElement('div');
+            container.className = 'grid grid-cols-1 gap-2 pt-1';
+
+            question.options.forEach((opt) => {
+                const isSelected = (currentValue === opt.score);
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `w-full text-left p-3 rounded-xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-between cursor-pointer ${isSelected ? 'bg-tealBrand-50 border-tealBrand-500 text-tealBrand-700 shadow-sm' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}`;
+                btn.innerHTML = `<span>${opt.text}</span><div class="w-4 h-4 rounded-full border flex items-center justify-center ${isSelected ? 'border-tealBrand-600 bg-tealBrand-600 text-white' : 'border-slate-300'}">${isSelected ? '<i data-lucide="check" class="w-3 h-3"></i>' : ''}</div>`;
+                btn.onclick = () => {
+                    surveyAnswers[question.id] = opt.score;
+                    renderCurrentCategory();
+                };
+                container.appendChild(btn);
+            });
+            return container;
+        }
+
+        function nextCategory() {
+            const cat = surveyCategories[currentCategoryIdx];
+            cat.questions.forEach(q => {
+                if (surveyAnswers[q.id] === undefined) {
+                    surveyAnswers[q.id] = 3;
+                }
+            });
+
+            if (currentCategoryIdx < surveyCategories.length - 1) {
+                currentCategoryIdx++;
+                renderCurrentCategory();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                calculateAndShowResults();
+            }
+        }
+
+        function prevCategory() {
+            if (currentCategoryIdx > 0) {
+                currentCategoryIdx--;
+                renderCurrentCategory();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function calculateAndShowResults() {
+            document.getElementById('survey-screen').classList.add('hidden');
+            document.getElementById('header-progress-badge').classList.add('hidden');
+            document.getElementById('results-screen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            let totalScoreSum = 0;
+            let totalQuestionsCount = 0;
+
+            surveyCategories.forEach(cat => {
+                cat.questions.forEach(q => {
+                    totalScoreSum += (surveyAnswers[q.id] || 3);
+                    totalQuestionsCount++;
+                });
+            });
+
+            const overallScore = Math.round((totalScoreSum / (totalQuestionsCount * 5)) * 100);
+            
+            document.getElementById('overall-score-num').innerText = overallScore;
+            const circle = document.getElementById('score-circle');
+            const offset = 377 - (overallScore / 100) * 377;
+            setTimeout(() => { circle.style.strokeDashoffset = offset; }, 100);
+            
+            lucide.createIcons();
+        }
+
+        function restartSurvey() {
+            surveyAnswers = {};
+            currentCategoryIdx = 0;
+            document.getElementById('results-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = function() {
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
