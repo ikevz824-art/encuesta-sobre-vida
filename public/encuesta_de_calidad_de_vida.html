@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Calidad de Vida</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100 min-h-screen text-slate-800 flex flex-col justify-between p-4 sm:p-6">
+
+    <!-- Header -->
+    <header class="max-w-3xl mx-auto w-full text-center py-4">
+        <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 px-4 py-1.5 rounded-full text-sm font-semibold mb-3 shadow-sm">
+            <i data-lucide="heart-pulse" class="w-4 h-4"></i> Evaluación Integral
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">Encuesta de Calidad de Vida</h1>
+        <p class="text-slate-600 mt-1.5 text-sm sm:text-base">Tómate unos minutos para evaluar tu bienestar actual y recibir recomendaciones personalizadas.</p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-2xl mx-auto w-full my-auto">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 sm:p-10 relative overflow-hidden">
+            
+            <!-- Welcome Screen -->
+            <div id="welcome-screen" class="space-y-6 text-center py-4">
+                <div class="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-2xl mx-auto flex items-center justify-center shadow-inner">
+                    <i data-lucide="sparkles" class="w-10 h-10"></i>
+                </div>
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-bold text-slate-900">¿Cómo está tu bienestar hoy?</h2>
+                    <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto">Esta encuesta abarca 5 pilares fundamentales: Salud Física, Salud Mental, Entorno, Relaciones y Trabajo.</p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-left max-w-lg mx-auto py-2 text-sm text-slate-700">
+                    <div class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl"><i data-lucide="activity" class="w-4 h-4 text-emerald-600"></i> Física</div>
+                    <div class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl"><i data-lucide="smile" class="w-4 h-4 text-emerald-600"></i> Mental</div>
+                    <div class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl"><i data-lucide="home" class="w-4 h-4 text-emerald-600"></i> Entorno</div>
+                    <div class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl"><i data-lucide="users" class="w-4 h-4 text-emerald-600"></i> Relaciones</div>
+                    <div class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl col-span-2 sm:col-span-1"><i data-lucide="briefcase" class="w-4 h-4 text-emerald-600"></i> Trabajo</div>
+                </div>
+                <button onclick="startQuiz()" class="w-full sm:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow-lg shadow
